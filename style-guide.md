@@ -11,12 +11,12 @@ The designs were created to the following widths:
 
 ### Neutral
 
-- Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%)
-- Very Dark Blue (Dark Mode Background): hsl(207, 26%, 17%)
-- Very Dark Blue (Light Mode Text): hsl(200, 15%, 8%)
-- Dark Gray (Light Mode Input): hsl(0, 0%, 52%)
-- Very Light Gray (Light Mode Background): hsl(0, 0%, 98%)
-- White (Dark Mode Text & Light Mode Elements): hsl(0, 0%, 100%)
+- Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%) in RGB -> #2B3945
+- Very Dark Blue (Dark Mode Background): hsl(207, 26%, 17%) in RGB -> #202C37
+- Very Dark Blue (Light Mode Text): hsl(200, 15%, 8%) in RGB -> #111517
+- Dark Gray (Light Mode Input): hsl(0, 0%, 52%) in RGB -> #858585
+- Very Light Gray (Light Mode Background): hsl(0, 0%, 98%) in RGB -> FAFAFA
+- White (Dark Mode Text & Light Mode Elements): hsl(0, 0%, 100%) in RGB -> FFFFFF
 
 ## Typography
 

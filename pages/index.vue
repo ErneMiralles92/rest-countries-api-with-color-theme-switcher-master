@@ -1,97 +1,103 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <div>
+    <v-row>
+      <v-col cols="12" sm="5">
+        <v-text-field v-model="searchByName" solo label="Search for country..." prepend-inner-icon="mdi-magnify" clearable />
+      </v-col>
+      <v-spacer v-if="$vuetify.breakpoint.smAndUp" />
+      <v-col cols="7" sm="3">
+        <v-select
+          v-model="region"
+          :items="regionItems"
+          label="Filter by Region"
+          solo
+          clearable
+          :menu-props="{ offsetY: true }"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-progress-linear v-show="loadingCountries" :indeterminate="true" />
+    </v-row>
+    <v-row>
+      <v-col v-for="(country, index) in filteredCountries" :key="`countryCard${index}`" cols="12" sm="3">
+        <CountryCard :country="country" class="mb-8" />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
-<script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+<script lang="ts">
+import Vue from 'vue'
+// import countries from '../static/countries'
+import CountryCard from '../components/country/CountryCard.vue'
+import Country from '../components/country/country-model'
 
-export default {
+export default Vue.extend({
   components: {
-    Logo,
-    VuetifyLogo
+    CountryCard
+  },
+  data () {
+    return {
+      searchByName: '',
+      region: '',
+      countries: [],
+      allCountries: [],
+      loadingCountries: false
+    }
+  },
+  computed: {
+    regionItems (): {value: string, text: string}[] {
+      return [
+        { text: 'Africa', value: 'Africa' },
+        { text: 'America', value: 'Americas' },
+        { text: 'Asia', value: 'Asia' },
+        { text: 'Europe', value: 'Europe' },
+        { text: 'Oceania', value: 'Oceania' }
+      ]
+    },
+    filteredCountries (): Array<Country> {
+      if (!this.searchByName) { return this.countries }
+      return this.countries.filter((countryData: Country): boolean => countryData.name.toLowerCase().includes(this.searchByName.toLowerCase()))
+    }
+  },
+  watch: {
+    region (newRegion: string): void {
+      if (!newRegion) {
+        this.countries = [...this.allCountries]
+        return
+      }
+      this.getCountriesByRegion(newRegion)
+      // console.log('Get from ', newRegion)
+    }
+  },
+  created () {
+    this.getAllCountries()
+  },
+  methods: {
+    async getAllCountries () {
+      this.loadingCountries = true
+      try {
+        this.allCountries = await this.$axios.$get('https://restcountries.eu/rest/v2/all')
+        // console.log({ allCountries: this.allCountries })
+      } catch (error) {
+        console.log('getAllCountries error ', error)
+        this.allCountries = []
+      }
+      this.countries = [...this.allCountries]
+      this.loadingCountries = false
+    },
+    async getCountriesByRegion (region: string) {
+      this.loadingCountries = true
+      try {
+        this.countries = await this.$axios.$get(`https://restcountries.eu/rest/v2/region/${region}`)
+        // console.log({ allCountries: this.allCountries })
+      } catch (error) {
+        console.log('getCountriesByRegion error ', error)
+      }
+      this.loadingCountries = false
+    }
+
   }
-}
+})
 </script>

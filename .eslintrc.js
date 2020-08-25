@@ -5,7 +5,9 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    'standard'
+    'plugin:vue/recommended',
+    'plugin:vue/strongly-recommended',
+    '@nuxtjs/eslint-config-typescript'
   ],
   parserOptions: {
     ecmaVersion: 11,
