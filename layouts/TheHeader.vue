@@ -30,6 +30,19 @@ export default Vue.extend({
     return {
       title: 'Where in the world?'
     }
+  },
+  computed: {
+    dark: {
+      get () : boolean {
+        return this.$store.getters.dark
+      },
+      set (value : boolean) {
+        this.$store.commit('CHANGE_DARK', value)
+      }
+    }
+  },
+  created () {
+    console.log('created Header')
   }
 })
 </script>

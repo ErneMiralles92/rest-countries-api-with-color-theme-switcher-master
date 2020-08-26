@@ -21,7 +21,9 @@ $lightBackgroundColor: #FAFAFA;
 .theme--dark.v-app-bar.v-toolbar.v-sheet, 
 .theme--dark.v-card, 
 .theme--dark.v-text-field--solo > .v-input__control > .v-input__slot, 
-.theme--dark.v-list {
+.theme--dark.v-list,
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined),
+.theme--dark.v-chip:not(.v-chip--active) {
     background: $darkElementsColor;
 }
 
@@ -29,7 +31,9 @@ $lightBackgroundColor: #FAFAFA;
     background: $darkBackgroundColor;
 }
 
-.theme--light.v-app-bar.v-toolbar.v-sheet {
+.theme--light.v-app-bar.v-toolbar.v-sheet,
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined),
+.theme--light.v-chip:not(.v-chip--active) {
   background: white;  
 }
 

@@ -2,7 +2,8 @@
   <v-card
     class="mx-auto"
     max-width="300"
-    @click=""
+    nuxt
+    :to="country.alpha2Code"
   >
     <v-img
       height="150"

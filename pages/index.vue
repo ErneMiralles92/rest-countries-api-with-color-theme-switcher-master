@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-// import countries from '../static/countries'
+// import countryTestData from '../components/country/countryTestData'
 import CountryCard from '../components/country/CountryCard.vue'
 import Country from '../components/country/country-model'
 
@@ -37,11 +37,22 @@ export default Vue.extend({
   components: {
     CountryCard
   },
+  asyncData (context) {
+    return context.app.$axios.$get('https://restcountries.eu/rest/v2/all')
+      .then((data) => {
+        return { allCountries: data }
+      })
+      .catch((error) => {
+        console.log('loadCountries error ', error)
+        return { allCountries: [] }
+      })
+  },
   data () {
+    const emptyCountries: Country[] = []
     return {
       searchByName: '',
       region: '',
-      countries: [],
+      countries: emptyCountries,
       allCountries: [],
       loadingCountries: false
     }
@@ -72,21 +83,9 @@ export default Vue.extend({
     }
   },
   created () {
-    this.getAllCountries()
+    this.countries = [...this.allCountries]
   },
   methods: {
-    async getAllCountries () {
-      this.loadingCountries = true
-      try {
-        this.allCountries = await this.$axios.$get('https://restcountries.eu/rest/v2/all')
-        // console.log({ allCountries: this.allCountries })
-      } catch (error) {
-        console.log('getAllCountries error ', error)
-        this.allCountries = []
-      }
-      this.countries = [...this.allCountries]
-      this.loadingCountries = false
-    },
     async getCountriesByRegion (region: string) {
       this.loadingCountries = true
       try {
