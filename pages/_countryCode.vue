@@ -72,7 +72,7 @@
         </v-row>
         <v-row class="subtitle-2 rc-font-weight-regular mt-6">
           <span class="rc-font-weight-medium pa-3 mt-2">{{ 'Border Countries' }}: </span>
-          <span v-if="borderCountries.length === 0" class="subtitle-2 rc-font-weight-regular">None</span>
+          <span v-if="borderCountries.length === 0" class="subtitle-2 rc-font-weight-regular pa-3 mt-2">None</span>
           <v-col cols="12" md="8" class="pl-sm-0">
             <v-btn
               v-for="(border, index) in borderCountries"

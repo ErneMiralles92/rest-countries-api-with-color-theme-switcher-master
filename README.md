@@ -1,7 +1,3 @@
-# Frontend Mentor - REST Countries API with color theme switcher
-
-> An app for mobile recharges by clients
-
 ## Build Setup
 
 ``` bash
