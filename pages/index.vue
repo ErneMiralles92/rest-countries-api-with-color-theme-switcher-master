@@ -69,7 +69,7 @@ export default Vue.extend({
     },
     filteredCountries (): Array<Country> {
       if (!this.searchByName) { return this.countries }
-      return this.countries.filter((countryData: Country): boolean => countryData.name.toLowerCase().includes(this.searchByName.toLowerCase()))
+      return this.countries.filter((countryData: Country): boolean => countryData.name.toLowerCase().includes(this.searchByName.toLowerCase().trim()))
     }
   },
   watch: {
